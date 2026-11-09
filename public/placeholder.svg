@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <rect width="400" height="400" fill="#141417"/>
+  <circle cx="200" cy="200" r="140" fill="#1C1C21" stroke="#C9A96E" stroke-width="2" stroke-opacity="0.3"/>
+  <circle cx="200" cy="200" r="90" fill="#0D0D0F" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.1"/>
+  <circle cx="200" cy="200" r="40" fill="#22222A" stroke="#C9A96E" stroke-width="1" stroke-opacity="0.5"/>
+  <circle cx="200" cy="200" r="8" fill="#C9A96E"/>
+  <text x="200" y="370" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-weight="600" fill="#C9A96E" letter-spacing="4">SONORA RECORD</text>
+</svg>
+
