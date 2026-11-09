@@ -12,8 +12,8 @@ import { SearchOverlay } from './search-overlay'
 
 const links = [
   { href: '/', label: 'Discover' },
+  { href: '/artists', label: 'Artists' },
   { href: '/moods', label: 'Moods' },
-  { href: '/#journal', label: 'Journal' },
   { href: '/profile', label: 'Library' },
 ]
 

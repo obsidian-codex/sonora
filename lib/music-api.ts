@@ -287,8 +287,13 @@ export async function getLiveAlbum(slugOrId: string): Promise<Album | null> {
         const cover = getHighResArtwork(albumInfo.artworkUrl100 || initialMeta?.artworkUrl100);
         const genre = albumInfo.primaryGenreName || 'Music';
 
-        // Generate live Gemini AI critical review
-        const aiAnalysis = await generateAIAlbumAnalysis({
+        const curatedByTitle = fallbackAlbums.find(
+          (a) => a.title.toLowerCase() === title.toLowerCase() ||
+                 title.toLowerCase().includes(a.title.toLowerCase())
+        );
+
+        // Generate live Gemini AI critical review or use curated masterpiece analysis
+        const aiAnalysis = curatedByTitle ? curatedByTitle.analysis : await generateAIAlbumAnalysis({
           title,
           artist,
           genre,
@@ -296,7 +301,7 @@ export async function getLiveAlbum(slugOrId: string): Promise<Album | null> {
           tracks: realTracks.map((t) => t.title),
         });
 
-        const score = 9.3;
+        const score = curatedByTitle ? curatedByTitle.score : 9.3;
 
         return {
           slug: slugClean,
@@ -313,21 +318,21 @@ export async function getLiveAlbum(slugOrId: string): Promise<Album | null> {
               })
             : `${year}`,
           genre,
-          subgenres: [genre, 'Studio Album'],
+          subgenres: curatedByTitle ? curatedByTitle.subgenres : [genre, 'Studio Album'],
           label: albumInfo.copyright || 'Official Release',
           cover,
-          moods: ['late-night', 'focus', 'solitude'],
+          moods: curatedByTitle ? curatedByTitle.moods : ['late-night', 'focus', 'solitude'],
           score,
-          ratingsCount: 48200,
+          ratingsCount: curatedByTitle ? curatedByTitle.ratingsCount : 48200,
           distribution: distribution(score, 1.0),
-          saves: 95400,
+          saves: curatedByTitle ? curatedByTitle.saves : 95400,
           trendDelta: 6,
           attentionRise: 42,
           isNew: year >= 2024,
           tagline: aiAnalysis.lede,
-          editorial: aiAnalysis.body.join(' '),
+          editorial: curatedByTitle ? curatedByTitle.editorial : aiAnalysis.body.join(' '),
           analysis: aiAnalysis,
-          credits: [
+          credits: curatedByTitle ? curatedByTitle.credits : [
             { role: 'Artist', name: artist },
             { role: 'Record Label', name: albumInfo.copyright || 'Official Release' },
             { role: 'Track Count', name: `${realTracks.length} Official Cuts` },

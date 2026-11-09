@@ -2,14 +2,15 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Compass, Search, Sparkles, User } from 'lucide-react'
+import { Compass, Search, Sparkles, User, Mic2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const items = [
   { href: '/', label: 'Discover', icon: Compass, match: (p: string) => p === '/' || p.startsWith('/album') },
+  { href: '/artists', label: 'Artists', icon: Mic2, match: (p: string) => p.startsWith('/artist') },
   { href: '/search', label: 'Search', icon: Search, match: (p: string) => p.startsWith('/search') },
   { href: '/moods', label: 'Moods', icon: Sparkles, match: (p: string) => p.startsWith('/mood') },
-  { href: '/profile', label: 'Profile', icon: User, match: (p: string) => p.startsWith('/profile') },
+  { href: '/profile', label: 'Library', icon: User, match: (p: string) => p.startsWith('/profile') },
 ]
 
 export function MobileNav() {
