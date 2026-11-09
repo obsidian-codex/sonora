@@ -1,9 +1,28 @@
 import type { Album, Discussion, Mood, MoodSlug, Review, Story, Track } from './types'
 
-type TrackTuple = [title: string, duration: string, rating: number, standout?: boolean, previewUrl?: string]
+type TrackTuple =
+  | [title: string, duration: string, rating: number, standout?: boolean, previewUrl?: string]
+  | [title: string, duration: string, rating: number, previewUrl?: string]
 
 const tracks = (list: TrackTuple[]): Track[] =>
-  list.map(([title, duration, rating, standout, previewUrl], i) => ({ n: i + 1, title, duration, rating, standout, previewUrl }))
+  list.map((rawItem, i) => {
+    const item = rawItem as (string | number | boolean | undefined)[]
+    const title = item[0] as string
+    const duration = item[1] as string
+    const rating = item[2] as number
+    let standout: boolean | undefined = undefined
+    let previewUrl: string | undefined = undefined
+
+    if (typeof item[3] === 'boolean') {
+      standout = item[3]
+      previewUrl = item[4] as string | undefined
+    } else if (typeof item[3] === 'string') {
+      previewUrl = item[3]
+      standout = typeof item[4] === 'boolean' ? item[4] : undefined
+    }
+
+    return { n: i + 1, title, duration, rating, standout, previewUrl }
+  })
 
 /** Bell-shaped distribution of community ratings (percent per point, 1–10). */
 const distribution = (score: number, spread = 1.35): number[] => {
